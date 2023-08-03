@@ -1,0 +1,33 @@
+html.sky {
+  --el-menu-bg-color: #e0f2fe;
+  --el-bg-color-overlay: #e0f2fe;
+  --el-fill-color-blank: #f0f9ff;
+  --el-bg-color: #f0f9ff;
+  --el-fill-color-lighter: #e0f2fe;
+  --el-color-info-light-9: #c7e5f9;
+  --el-color-info-light-8: #fff;
+  --el-color-primary-light-8: #fff;
+  --el-color-info: #fff;
+  --el-border-color: #c7e5f9;
+  --el-mask-color: #e0f2fe;
+  --el-fill-color-light: #f0f9ff;
+
+  --w-e-textarea-bg-color: #e0f2fe;
+  --w-e-textarea-color: #fff;
+  --w-e-textarea-border-color: #ffffff;
+  --w-e-textarea-slight-border-color: #ffffff;
+  --w-e-textarea-slight-color: #ffffff;
+  --w-e-textarea-slight-bg-color: #f5f2f0;
+  --w-e-textarea-selected-border-color: #ffffff;
+  --w-e-textarea-handler-bg-color: #ffffff;
+
+  --w-e-toolbar-color: #ffffff;
+  --w-e-toolbar-bg-color: #cbe5f8;
+  --w-e-toolbar-active-color: #ffffff;
+  --w-e-toolbar-active-bg-color: #cdeaf5;
+  --w-e-toolbar-disabled-color: #ffffff;
+  --w-e-toolbar-border-color: #ffffff;
+
+  --w-e-modal-button-bg-color: #ffffff;
+  --w-e-modal-button-border-color: #ffffff;
+}
