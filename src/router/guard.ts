@@ -4,7 +4,6 @@ import redirectService from "@/hooks/useRedirect";
 import { RouteLocationNormalized, Router } from "vue-router";
 import NProgress from "@/utils/progress";
 import autoload from "./autoload";
-import { useMessage } from "@/hooks/useMessage";
 // import user from "mock/user";
 
 class Guard {
@@ -31,19 +30,9 @@ class Guard {
     }
     if (this.token() && userState.roleList[0] == null) {
       console.log(3333);
-      const res = await userState.getUserInfo();
+      await userState.getUserInfo();
       // console.log(res);
-      if (res?.code === 401) {
-        useMessage("error", res.msg + ",请重新登录");
-        userState.roleList[0] = "guest";
-        // await autoload(this.router);
-        // this.router.push("/login");
-        // return { name: "404" };
-        // this.router.push({ path: "login" });
-      } else {
-        console.log(4444);
-        await autoload(this.router);
-      }
+      // await autoload(this.router);
     }
     // console.log(userState.permission);
     if (userState.roleList) {

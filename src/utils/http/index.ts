@@ -1,9 +1,8 @@
 import Axios, { AxiosInstance, AxiosRequestConfig } from "axios";
 import { CloudHttpError, RequestMethods, CloudHttpResoponse, CloudHttpRequestConfig } from "#/http";
 import { getToken, removeToken } from "@/utils/auth";
-import { userStore } from "@/store/user";
 import { useMessage } from "@/hooks/useMessage";
-import router from "@/router";
+import { refreshWindow } from "../web";
 
 const defaultConfig: AxiosRequestConfig = {
   baseURL: import.meta.env.VITE_APP_BASE_API,
@@ -63,15 +62,13 @@ class CloudHttp {
     const instance = CloudHttp.axiosInstance;
     instance.interceptors.response.use(
       (response: CloudHttpResoponse) => {
-        //   if (response.data.code === 401) {
-        //     removeToken();
-        //     useMessage("error", response.data.message);
-        //     userStore()
-        //       .logout()
-        //       .then(() => {
-        //         router.push("/");
-        //       });
-        //   }
+        if (response.data.code === 401) {
+          removeToken();
+          useMessage("error", response.data.msg);
+          setTimeout(() => {
+            refreshWindow();
+          }, 1000);
+        }
         const $config = response.config;
         // 优先判断post/get等方法是否传入回调，否则执行初始化设置等回调
         if (typeof $config.beforeResponseCallback === "function") {

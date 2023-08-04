@@ -14,7 +14,7 @@ const time = useTimeFix();
 const { t } = useI18n();
 const { yup, useForm, useFields } = v;
 const { passwordInputText, mailInputText } = useLoginPlaceholder();
-console.log(router);
+// console.log(router);
 const schema = {
   username: yup
     .string()
@@ -42,7 +42,7 @@ const onSubmit = handleSubmit(async (values: any) => {
     unref(values),
     () => {
       if (redirectService.redirect.value) {
-        console.log(redirectService.redirect.value);
+        // console.log(redirectService.redirect.value);
         router.push({
           name: redirectService.redirect.value
         });

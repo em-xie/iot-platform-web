@@ -3,7 +3,7 @@ import { Setting } from "@element-plus/icons-vue";
 import { UserEnum } from "@/enum/userEnum";
 import { useNow, useDateFormat } from "@vueuse/core";
 import { useDialog } from "@/hooks/useDialog";
-import { useMessage } from "@/hooks/useMessage";
+// import { useMessage } from "@/hooks/useMessage";
 // import { removeToken } from "@/utils/auth";
 import { userStore } from "@/store/user";
 import { openNewTab, refreshWindow } from "@/utils/web";
@@ -20,7 +20,7 @@ const formatted = useDateFormat(useNow(), "YYYY-MM-DD HH:mm");
 const toLogin = async () => {
   useDialog(t("golbal.logout.message.confirm"), async () => {
     await userState.logout();
-    useMessage("success", t("golbal.logout.message.success"));
+    // useMessage("success", t("golbal.logout.message.success"));
     router.replace("/login");
     refreshWindow();
   });

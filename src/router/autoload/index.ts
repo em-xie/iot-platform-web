@@ -85,6 +85,11 @@ function filterRemoteRoute(route: RouteRecordRaw[]): RouteRecordRaw[] {
 async function fetchRemoteRoute() {
   const res = await fetchRouteInfo();
   console.log(res);
+  // if (res?.code === 401) {
+  //   useMessage("error", res.msg);
+  //   removeToken();
+  //   router.push("login");
+  // }
   return filterRemoteRoute(res.data);
 }
 
