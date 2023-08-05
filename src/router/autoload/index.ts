@@ -84,7 +84,7 @@ function filterRemoteRoute(route: RouteRecordRaw[]): RouteRecordRaw[] {
  */
 async function fetchRemoteRoute() {
   const res = await fetchRouteInfo();
-  console.log(res);
+  // console.log(res);
   // if (res?.code === 401) {
   //   useMessage("error", res.msg);
   //   removeToken();
@@ -111,7 +111,7 @@ async function autoload(router: Router) {
     // console.log(routes);
     const remoteRoutes = await fetchRemoteRoute();
     routes = [...routes, ...remoteRoutes];
-    console.log(routes);
+    // console.log(routes);
   }
   // } else if (remoteFlag) {
   //   routes = autoloadModuleRoutes();

@@ -41,6 +41,9 @@ watch(
       <template #reference>
         <el-button icon="menu" circle />
       </template>
+      <template #actions>
+        <el-button icon="menu" circle />
+      </template>
       <div class="flex justify-between">
         <el-checkbox-group v-model="modelValue" @change="filterColumns">
           <div class="flex flex-col">

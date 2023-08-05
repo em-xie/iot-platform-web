@@ -17,12 +17,18 @@ const props = withDefaults(defineProps<Props>(), {
 });
 
 const { computedColumns, columnsRef, filterColumns, moveColumn } = useTable<any>(props.columns);
-
+// 开关
+const emit = defineEmits(["status-change"]);
+const statusChange = (data: any) => {
+  //我需要id，所以我只传了id过去，在主页面走接口调用
+  console.log(data);
+  emit("status-change", data);
+};
 watchEffect(() => {
   // TODO 为了解决国际化切换和动态列的冲突
   columnsRef.value = columnsRef.value.map((column, index) => {
     const propsColumn = props.columns.find((c) => c.prop === column.prop);
-
+    console.log(columnsRef.value);
     return {
       ...column,
       width: column.width,
@@ -57,6 +63,14 @@ watchEffect(() => {
       >
         <template v-if="column.scoped" #default="scope">
           <slot :name="column.scoped" :scope="scope"></slot>
+        </template>
+        <template v-else-if="column.prop == 'status'" #default="scope">
+          <el-switch
+            v-model="scope.row.status"
+            active-value="0"
+            inactive-value="1"
+            @change="statusChange(scope.row)"
+          ></el-switch>
         </template>
       </el-table-column>
     </el-table>

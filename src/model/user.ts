@@ -116,3 +116,20 @@ export interface RouteOption {
   };
   query?: string;
 }
+
+export interface UserModel {
+  userId: string | number;
+  userName: string;
+  nickName: string;
+  email: string;
+  phonenumber: string;
+  sex: string;
+  avatar: string;
+  status: string;
+  delFlag: string;
+  loginIp: string;
+  loginDate: string;
+  remark: string;
+  createBy?: any;
+  createTime?: string;
+}

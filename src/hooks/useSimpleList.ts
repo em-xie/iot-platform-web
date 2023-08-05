@@ -4,7 +4,8 @@ import { useMessage } from "./useMessage";
 import { BasicResult } from "#/resultType";
 import ListFactory, { UrlListType } from "@/utils/list/listFactory";
 import { useI18n } from "vue-i18n";
-
+import { changStatusApi } from "@/api/user";
+import { useDialog } from "./useDialog";
 /**
  * 接受一个url对象，提供基础的增删改查方法
  * @param url url对象
@@ -35,10 +36,13 @@ function useSimpleList<T, U = any>(url: Partial<UrlListType>) {
       ipagination.value.current = 1;
     }
     const params = getQueryParams();
+    // console.log(params);
     try {
       loading.value = true;
       const res = await http.get<U, BasicResult<T[]>>(url.list, params);
-      dataSource.value = res.data as any;
+      dataSource.value = res.rows as any;
+      console.log(res);
+      // console.log(dataSource.value);
       ipagination.value.total = Number(res.total!);
     } finally {
       loading.value = false;
@@ -52,6 +56,7 @@ function useSimpleList<T, U = any>(url: Partial<UrlListType>) {
 
   const handleSearch = (values: any) => {
     queryParam.value = values;
+    console.log(values);
     loadData(true);
   };
 
@@ -187,6 +192,39 @@ function useSimpleList<T, U = any>(url: Partial<UrlListType>) {
     ids.value = unref(val).map((item: any) => item.id);
   };
 
+  /** 用户状态修改  */
+  const changeStatus = async (val: any) => {
+    // console.log(val.status);
+    const text = val.status === "0" ? "启用" : "停用";
+    try {
+      useDialog(
+        '确认要"' + text + '""' + val.nickName + '"用户吗?',
+        async () => {
+          const res = await changStatusApi(val.userId, val.status);
+          if (res.code === 200) {
+            useMessage("success", "修改状态成功");
+            loadData();
+          }
+        },
+        () => {
+          useMessage("error", "修改状态失败");
+          loadData();
+        }
+      );
+
+      // const res = await changStatusApi(val.roleId, val.status);
+      // // await http.changeUserStatus(row.userId, row.status);
+      // if (res.code === 200) {
+      //   useMessage("success", "修改状态成功");
+      //   loadData();
+      // }
+    } catch (err) {
+      useMessage("error", "修改状态失败");
+      val.status = val.status === "0" ? "1" : "0";
+      loadData();
+    }
+  };
+
   onMounted(async () => {
     await loadData(true);
   });
@@ -210,7 +248,8 @@ function useSimpleList<T, U = any>(url: Partial<UrlListType>) {
     ids,
     ipagination,
     modalFormRef,
-    loading
+    loading,
+    changeStatus
   };
 }
 

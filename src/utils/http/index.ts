@@ -3,6 +3,7 @@ import { CloudHttpError, RequestMethods, CloudHttpResoponse, CloudHttpRequestCon
 import { getToken, removeToken } from "@/utils/auth";
 import { useMessage } from "@/hooks/useMessage";
 import { refreshWindow } from "../web";
+import router from "@/router";
 
 const defaultConfig: AxiosRequestConfig = {
   baseURL: import.meta.env.VITE_APP_BASE_API,
@@ -66,6 +67,7 @@ class CloudHttp {
           removeToken();
           useMessage("error", response.data.msg);
           setTimeout(() => {
+            router.replace("/login");
             refreshWindow();
           }, 1000);
         }

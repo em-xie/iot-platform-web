@@ -4,4 +4,5 @@ export interface BasicResult<T> {
   status: string;
   total?: number;
   data: T;
+  rows: T;
 }

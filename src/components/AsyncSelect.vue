@@ -27,6 +27,7 @@ const dataSource = ref<OptionsType[]>([]);
 async function fetchDataList() {
   const res = await http.get<{}, BasicResult<OptionsType[]>>(props.url);
   if (res && res.code === 200) {
+    console.log(res);
     dataSource.value = res.data;
   }
 }

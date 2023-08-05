@@ -4,11 +4,11 @@ import { UrlListType } from "@/utils/list/listFactory";
 import { useI18n } from "vue-i18n";
 
 export const articleUrl: Partial<UrlListType> = {
-  list: "/article",
-  delete: "/article",
-  batchDelete: "/article",
-  edit: "/article",
-  add: "/article"
+  // list: "/article",
+  // delete: "/article",
+  // batchDelete: "/article",
+  // edit: "/article",
+  // add: "/article"
 };
 
 export const setupArticleAttributes = () => {

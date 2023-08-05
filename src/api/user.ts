@@ -102,3 +102,27 @@ export const logoutApi = () => {
     }
   });
 };
+
+enum API {
+  CHANGE_ROLE_STATUS = "/system/user/changeStatus"
+}
+
+export const changStatusApi = (userId: string | number, status: string) => {
+  const data = {
+    userId,
+    status
+  };
+  return new Promise<BasicResult<{}>>(async (resolve, reject) => {
+    try {
+      const res = await http.put<{}, BasicResult<{}>>(API.CHANGE_ROLE_STATUS, {
+        data,
+        headers: {
+          "Content-Type": "application/json"
+        }
+      });
+      resolve(res);
+    } catch (error) {
+      reject(error);
+    }
+  });
+};

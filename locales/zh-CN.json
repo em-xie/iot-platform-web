@@ -141,5 +141,26 @@
   "page.common.login.form.link.forget": "忘记密码",
   "page.common.login.form.link.OAuth": "第三方登录",
   "page.common.login.form.link.btn.qq": "QQ",
-  "page.common.login.form.link.btn.wechat": "微信"
+  "page.common.login.form.link.btn.wechat": "微信",
+
+  "page.common.user.role.column.role.name": "角色名称",
+  "page.common.user.role.column.role.key": "权限字符",
+  "page.common.user.role.column.status": "状态",
+  "page.common.user.role.column.create.time": "创建时间",
+  "page.common.user.role.column.action": "操作",
+  "page.common.user.role.search.role_name": "请输入角色名称",
+  "page.common.user.role.search.role_key": "请输入权限字符",
+  "page.common.user.role.search.role_status": "状态",
+  "page.common.user.role.search.status": "请选择状态",
+  "page.common.user.info.column.user_id": "用户id",
+  "page.common.user.info.column.nick.name": "用户昵称",
+  "page.common.user.info.column.user.name": "角色名称",
+  "page.common.user.info.column.user.email": "邮箱",
+  "page.common.user.info.column.status": "状态",
+  "page.common.user.info.column.create.time": "创建时间",
+  "page.common.user.info.column.action": "操作",
+  "page.common.user.info.search.user_id": "请输入用户Id",
+  "page.common.user.info.search.user_name": "请输入角色名称",
+  "page.common.user.info.search.user_status": "状态",
+  "page.common.user.info.search.status": "请选择状态"
 }
