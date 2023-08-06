@@ -21,14 +21,14 @@ const { computedColumns, columnsRef, filterColumns, moveColumn } = useTable<any>
 const emit = defineEmits(["status-change"]);
 const statusChange = (data: any) => {
   //我需要id，所以我只传了id过去，在主页面走接口调用
-  console.log(data);
+  // console.log(data);
   emit("status-change", data);
 };
 watchEffect(() => {
   // TODO 为了解决国际化切换和动态列的冲突
   columnsRef.value = columnsRef.value.map((column, index) => {
     const propsColumn = props.columns.find((c) => c.prop === column.prop);
-    console.log(columnsRef.value);
+    // console.log(columnsRef.value);
     return {
       ...column,
       width: column.width,

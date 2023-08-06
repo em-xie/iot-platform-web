@@ -11,12 +11,12 @@ const types: Record<string, string> = {
   richText: "WangEditor"
 };
 
-const inputTypes = ["el-input", "el-input-number", "async-select"];
+const inputTypes = ["el-input", "el-input-number", "el-select", "async-select"];
 
 type CFormChildOptions = Omit<CFormOptions, "rules" | "children">;
 
 type CFormOptions = {
-  label: string;
+  label: string | string[];
   name: string;
   type?: string;
   tagName?: string;
@@ -103,6 +103,7 @@ const computedColSpan = computed(() => {
 
 async function submit() {
   await formRef.value?.validate((valid: boolean) => {
+    console.log(valid);
     if (valid) {
       const values = props.value;
       emits("submit", values);

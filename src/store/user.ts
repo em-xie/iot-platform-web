@@ -51,7 +51,7 @@ export const userStore = defineStore("user", () => {
         roleList.value = data.roles;
         permission.value = data.permissions;
       } else {
-        roleList.value = ["guest"];
+        roleList.value = ["common"];
       }
       name.value = user.userName;
       nickname.value = user.nickName;

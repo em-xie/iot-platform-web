@@ -76,6 +76,7 @@ function useSimpleList<T, U = any>(url: Partial<UrlListType>) {
    * @returns 响应信息
    */
   const handleAdd = async (params: T) => {
+    console.log(params);
     return new Promise(async (resolve, reject) => {
       try {
         if (!url.add) {
@@ -85,7 +86,7 @@ function useSimpleList<T, U = any>(url: Partial<UrlListType>) {
         const res = await http.post<T, BasicResult<{ count: number }>>(url.add, {
           data: params
         });
-        if (res.code === 200 && res.data.count > 0) {
+        if (res.code === 200 && res.msg === "操作成功") {
           resolve(res);
         }
       } catch (err) {
@@ -207,7 +208,7 @@ function useSimpleList<T, U = any>(url: Partial<UrlListType>) {
           }
         },
         () => {
-          useMessage("error", "修改状态失败");
+          // useMessage("error", "修改状态失败");
           loadData();
         }
       );

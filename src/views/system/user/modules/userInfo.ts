@@ -5,10 +5,10 @@ import { useI18n } from "vue-i18n";
 
 export const UserInfoUrl: Partial<UrlListType> = {
   list: "/system/user/list",
-  delete: "",
-  batchDelete: "",
-  edit: "",
-  add: ""
+  delete: "/system/user",
+  batchDelete: "/system/user",
+  edit: "/system/user",
+  add: "/system/user"
 };
 
 export const setupUserInfoAttributes = () => {

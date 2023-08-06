@@ -123,7 +123,9 @@ export interface UserModel {
   nickName: string;
   email: string;
   phonenumber: string;
+  password: string;
   sex: string;
+  roleIds: string[];
   avatar: string;
   status: string;
   delFlag: string;
@@ -132,4 +134,5 @@ export interface UserModel {
   remark: string;
   createBy?: any;
   createTime?: string;
+  type: string;
 }

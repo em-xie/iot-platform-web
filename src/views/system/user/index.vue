@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { SimpleListType, useSimpleList } from "@/hooks/useSimpleList";
-// import ArticleEditDialog from "@/views/design/components/ArticleEditDialog.vue";
+import UserEditDialog from "@/views/system/user/profiles/UserEditDialog.vue";
 import { UserModel } from "@/model/user";
 import { setupUserInfoAttributes, UserInfoUrl } from "./modules/userInfo";
 import { useI18n } from "vue-i18n";
@@ -32,8 +32,8 @@ const {
   loading,
   dataSource,
   ipagination,
-  // modalFormRef,
-  // loadData,
+  modalFormRef,
+  loadData,
   handleSizeChange,
   handleCurrentChange,
   handleSelectionChange,
@@ -111,6 +111,6 @@ const {
         />
       </div>
     </div>
-    <!-- <ArticleEditDialog ref="modalFormRef" @close="loadData" /> -->
+    <UserEditDialog ref="modalFormRef" @close="loadData" />
   </div>
 </template>

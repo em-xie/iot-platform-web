@@ -43,7 +43,7 @@ class Guard {
         return { name: "404" };
       }
     }
-    if (to.meta.guest && this.token()) {
+    if (to.meta.common && this.token()) {
       console.log(6666);
       return from;
     }
