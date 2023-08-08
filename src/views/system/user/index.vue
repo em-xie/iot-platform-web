@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { SimpleListType, useSimpleList } from "@/hooks/useSimpleList";
 import UserEditDialog from "@/views/system/user/profiles/UserEditDialog.vue";
+import InsertAuthDialog from "@/views/system/user/profiles/InsertAuthDialog.vue";
 import { UserModel } from "@/model/user";
 import { setupUserInfoAttributes, UserInfoUrl } from "./modules/userInfo";
 import { useI18n } from "vue-i18n";
@@ -20,6 +21,7 @@ const filterOptions = computed(() => {
   return UserInfoFilterOptions.value;
 });
 const isEmpty = computed(() => {
+  console.log(ids.value);
   return ids.value.length === 0;
 });
 
@@ -33,6 +35,7 @@ const {
   dataSource,
   ipagination,
   modalFormRef,
+  modalAuthRoleRef,
   loadData,
   handleSizeChange,
   handleCurrentChange,
@@ -43,7 +46,8 @@ const {
   handleBatchDelete,
   handleSearch,
   handleReset,
-  changeStatus
+  changeStatus,
+  handleOpenInserAuthDialog
 } = useSimpleList<UserModel>(UserInfoUrl) as SimpleListType;
 </script>
 
@@ -87,9 +91,13 @@ const {
             t("page.common.btn.edit")
           }}</el-button>
 
+          <el-button size="small" @click="handleOpenInserAuthDialog(scope.row)">{{
+            t("page.common.btn.insertAuthRole")
+          }}</el-button>
+
           <el-popconfirm
             :title="t('page.common.btn.delete_popover')"
-            @confirm="handleDelete(scope.row.id)"
+            @confirm="handleDelete(scope.row.userId)"
           >
             <template #reference>
               <el-button size="small" type="danger">{{ t("page.common.btn.delete") }}</el-button>
@@ -112,5 +120,6 @@ const {
       </div>
     </div>
     <UserEditDialog ref="modalFormRef" @close="loadData" />
+    <InsertAuthDialog ref="modalAuthRoleRef" @close="loadData" />
   </div>
 </template>

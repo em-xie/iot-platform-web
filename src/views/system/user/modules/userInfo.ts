@@ -40,7 +40,7 @@ export const setupUserInfoAttributes = () => {
       //   tagName: "async-select",
       //   props: {
       //     placeholder: t("page.common.user.role.search.status"),
-      //     // url: "/system/role/optionselect",
+      //     url: "/system/role/optionselect",
       //     size: "default",
       //     style: {
       //       width: "100%"
@@ -133,7 +133,7 @@ export const setupUserInfoAttributes = () => {
         label: t("page.common.user.info.column.action"),
         fixed: "right",
         scoped: "actions",
-        width: "150"
+        align: "center"
       }
     ];
   });

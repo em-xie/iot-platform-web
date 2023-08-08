@@ -180,5 +180,8 @@
   "page.common.design.user.info.form.sex_placeholder": "请选择性别",
   "page.common.design.user.info.form.status_placeholder": "请输入用户状态",
   "page.common.design.user.info.form.roleIds_placeholder": "请输入用户角色",
-  "page.common.design.user.info.form.remark_placeholder": "请输入备注"
+  "page.common.design.user.info.form.remark_placeholder": "请输入备注",
+  "page.common.btn.insertAuthRole": "授权",
+  "page.common.title.insertAuthRole": "授权",
+  "page.common.notice.addRole_success": "授权成功!"
 }

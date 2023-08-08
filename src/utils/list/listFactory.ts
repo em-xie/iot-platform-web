@@ -13,6 +13,7 @@ class ListFactory<T, U> {
   queryParam = ref<U>();
   url = ref<Partial<UrlListType>>({});
   modalFormRef = ref<any>();
+  modalAuthRoleRef = ref<any>();
   drawerFormRef = ref<any>();
   ipagination = reactive({
     current: 1,

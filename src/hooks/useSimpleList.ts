@@ -4,7 +4,7 @@ import { useMessage } from "./useMessage";
 import { BasicResult } from "#/resultType";
 import ListFactory, { UrlListType } from "@/utils/list/listFactory";
 import { useI18n } from "vue-i18n";
-import { changStatusApi } from "@/api/user";
+import { changStatusApi, insertAuthRole } from "@/api/user";
 import { useDialog } from "./useDialog";
 /**
  * 接受一个url对象，提供基础的增删改查方法
@@ -15,9 +15,16 @@ function useSimpleList<T, U = any>(url: Partial<UrlListType>) {
   const factory = new ListFactory<T, U>(url);
   const { t } = useI18n();
 
-  const { dataSource, ipagination, loading, queryParam, ids, modalFormRef, drawerFormRef } = toRefs(
-    reactive(factory)
-  );
+  const {
+    dataSource,
+    ipagination,
+    loading,
+    queryParam,
+    ids,
+    modalFormRef,
+    drawerFormRef,
+    modalAuthRoleRef
+  } = toRefs(reactive(factory));
 
   const getQueryParams = () => {
     return {
@@ -41,7 +48,7 @@ function useSimpleList<T, U = any>(url: Partial<UrlListType>) {
       loading.value = true;
       const res = await http.get<U, BasicResult<T[]>>(url.list, params);
       dataSource.value = res.rows as any;
-      console.log(res);
+      // console.log(res);
       // console.log(dataSource.value);
       ipagination.value.total = Number(res.total!);
     } finally {
@@ -56,7 +63,7 @@ function useSimpleList<T, U = any>(url: Partial<UrlListType>) {
 
   const handleSearch = (values: any) => {
     queryParam.value = values;
-    console.log(values);
+    // console.log(values);
     loadData(true);
   };
 
@@ -68,6 +75,14 @@ function useSimpleList<T, U = any>(url: Partial<UrlListType>) {
   const handleOpenEditDialog = <T>(record: T, title = t("page.common.title.edit")) => {
     modalFormRef.value.edit(record);
     modalFormRef.value.title = title;
+  };
+
+  const handleOpenInserAuthDialog = <T>(
+    record: T,
+    title = t("page.common.title.insertAuthRole")
+  ) => {
+    modalAuthRoleRef.value.insert(record);
+    modalAuthRoleRef.value.title = title;
   };
 
   /**
@@ -102,6 +117,7 @@ function useSimpleList<T, U = any>(url: Partial<UrlListType>) {
    */
   const handleEdit = async (params: T) => {
     return new Promise(async (resolve, reject) => {
+      console.log(params);
       try {
         if (!url.edit) {
           useMessage("error", t("page.common.notice.set_url_edit"));
@@ -110,7 +126,7 @@ function useSimpleList<T, U = any>(url: Partial<UrlListType>) {
         const res = await http.put<T, BasicResult<{ count: number }>>(url.edit, {
           data: params
         });
-        if (res.code === 200 && res.data.count > 0) {
+        if (res.code === 200 && res.msg === "操作成功") {
           resolve(res);
         }
       } catch (err) {
@@ -130,7 +146,7 @@ function useSimpleList<T, U = any>(url: Partial<UrlListType>) {
       return;
     }
     const res = await http.delete<{}, BasicResult<{ count: number }>>(`${url.delete}/${id}`);
-    if (res.code === 200 && res.data.count > 0) {
+    if (res.code === 200 && res.msg === "操作成功") {
       useMessage("success", t("page.common.notice.delete_success"));
       loadData(true);
     }
@@ -146,16 +162,17 @@ function useSimpleList<T, U = any>(url: Partial<UrlListType>) {
       return;
     }
     if (ids.value.length === 0) {
+      console.log(ids);
       useMessage("error", t("page.common.notice.empty_delete_data"));
       return;
     }
-    const res = await http.delete<{ ids: string }, BasicResult<{ count: number }>>(
-      url.batchDelete,
-      {
-        ids: ids.value.join(",")
-      }
+    const res = await http.delete<{ ids: number }, BasicResult<{ count: number }>>(
+      `${url.batchDelete}/${ids.value.join(",")}`
     );
-    if (res.code === 200 && res.data.count > 0) {
+    // {
+    //   ids: ids;
+    // }
+    if (res.code === 200 && res.msg === "操作成功") {
       useMessage("success", t("page.common.notice.batchDelete_success"));
       loadData(true);
     }
@@ -179,6 +196,14 @@ function useSimpleList<T, U = any>(url: Partial<UrlListType>) {
     drawerFormRef.value.title = title;
   };
 
+  const handleOpenInserAuthDialogDrawer = <T>(
+    record: T,
+    title = t("page.common.title.insertAuthRole")
+  ) => {
+    drawerFormRef.value.insert(record);
+    drawerFormRef.value.title = title;
+  };
+
   const handleSizeChange = (val: number) => {
     ipagination.value.pageSize = val;
     loadData();
@@ -190,7 +215,8 @@ function useSimpleList<T, U = any>(url: Partial<UrlListType>) {
   };
 
   const handleSelectionChange = (val: T[]) => {
-    ids.value = unref(val).map((item: any) => item.id);
+    ids.value = unref(val).map((item: any) => item.userId);
+    console.log(ids.value);
   };
 
   /** 用户状态修改  */
@@ -212,17 +238,23 @@ function useSimpleList<T, U = any>(url: Partial<UrlListType>) {
           loadData();
         }
       );
-
-      // const res = await changStatusApi(val.roleId, val.status);
-      // // await http.changeUserStatus(row.userId, row.status);
-      // if (res.code === 200) {
-      //   useMessage("success", "修改状态成功");
-      //   loadData();
-      // }
     } catch (err) {
       useMessage("error", "修改状态失败");
       val.status = val.status === "0" ? "1" : "0";
       loadData();
+    }
+  };
+
+  const handleInsertAuthRole = async (params: T) => {
+    const data = JSON.parse(JSON.stringify(params));
+    console.log(data);
+    //data.roleIds: "common"是这样的我想把这个参数传到后端,后端接收的是Long[] roIds;
+    const longArray = data.roleIds.split(",").map((item: string) => Number(item));
+    // console.log(longArray);
+    const res = await insertAuthRole(data.userId, longArray);
+    console.log(res);
+    if (res.code === 200) {
+      return Promise.resolve(res);
     }
   };
 
@@ -236,6 +268,7 @@ function useSimpleList<T, U = any>(url: Partial<UrlListType>) {
     handleOpenEditDialog,
     handleReset,
     handleAdd,
+    handleInsertAuthRole,
     handleEdit,
     handleDelete,
     handleBatchDelete,
@@ -249,8 +282,11 @@ function useSimpleList<T, U = any>(url: Partial<UrlListType>) {
     ids,
     ipagination,
     modalFormRef,
+    modalAuthRoleRef,
     loading,
-    changeStatus
+    changeStatus,
+    handleOpenInserAuthDialog,
+    handleOpenInserAuthDialogDrawer
   };
 }
 

@@ -74,6 +74,7 @@ export const userStore = defineStore("user", () => {
       }
     } catch (err) {
       error(err);
+      console.log(err);
     }
   }
 

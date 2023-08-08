@@ -6,14 +6,12 @@ import { useScreenPixel } from "@/utils/web";
 import { FormInstance } from "element-plus";
 import { useI18n } from "vue-i18n";
 import { UserInfoUrl } from "../modules/userInfo";
-// import v from "@/plugins/validate";
 const { t } = useI18n();
 const emit = defineEmits(["close"]);
 
 const { handleEdit, handleAdd } = useSimpleList<UserModel>(UserInfoUrl) as SimpleListType;
 const visible = ref(false);
 const ruleFormRef = ref<FormInstance>();
-// const ruleFormRef = ref("");
 const title = ref("");
 const { gtMd } = useScreenPixel();
 const model = ref<Partial<UserModel>>({});
@@ -37,11 +35,11 @@ function cancel() {
 }
 
 async function submitForm(formEl: FormInstance | undefined) {
-  console.log(formEl);
+  // console.log(formEl);
   console.log(isEdit.value);
   if (!formEl) return;
   await formEl.validate((valid) => {
-    console.log(valid);
+    // console.log(valid);
     if (valid) {
       if (isEdit.value) {
         handleEdit(model.value).then(() => {
@@ -59,30 +57,6 @@ async function submitForm(formEl: FormInstance | undefined) {
     }
   });
 }
-
-// async function submitForm(formEl) {
-//   console.log(formEl.value);
-//   if (!formEl) return;
-//   await formEl.validate((valid) => {
-//     if (valid) {
-//       console.log(valid);
-//       console.log(isEdit.value);
-//       if (isEdit.value) {
-//         handleEdit(model.value).then(() => {
-//           useMessage("success", t("page.common.notice.edit_success"));
-//           emit("close");
-//           visible.value = false;
-//         });
-//       } else {
-//         handleAdd(model.value).then(() => {
-//           useMessage("success", t("page.common.notice.add_success"));
-//           emit("close");
-//           visible.value = false;
-//         });
-//       }
-//     }
-//   });
-// }
 
 const options = computed(() => {
   return [

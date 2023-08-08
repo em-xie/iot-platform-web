@@ -1,4 +1,5 @@
 import { BasicResult } from "#/resultType";
+import { useMessage } from "@/hooks/useMessage";
 import { UserInfo } from "@/model/user";
 import { http } from "@/utils/http";
 
@@ -7,7 +8,9 @@ enum API {
   FETCH_EDITOR_INFO = "/user/editor",
   FETCH_ROUTER_INFO = "/user/route",
   USER_LOGIN = "/auth/login",
-  USER_LOGOUT = "/auth/logout"
+  USER_LOGOUT = "/auth/logout",
+  CHANGE_USER_STATUS = "/system/user/changeStatus",
+  INSTER_AUTH_ROLES = "/system/user/authRole"
 }
 // pc端固定客户端授权id
 const clientId = "e5cd7e4891bf95d1d19206ce24a7b32e";
@@ -85,7 +88,12 @@ export const userLogin = (data: ILoginForm) => {
           "Content-Type": "application/json"
         }
       });
-      resolve(res);
+      console.log(res);
+      if (res.code === 500) {
+        useMessage("error", res.msg);
+      } else {
+        resolve(res);
+      }
     } catch (error) {
       reject(error);
     }
@@ -103,10 +111,6 @@ export const logoutApi = () => {
   });
 };
 
-enum API {
-  CHANGE_ROLE_STATUS = "/system/user/changeStatus"
-}
-
 export const changStatusApi = (userId: string | number, status: string) => {
   const data = {
     userId,
@@ -114,7 +118,28 @@ export const changStatusApi = (userId: string | number, status: string) => {
   };
   return new Promise<BasicResult<{}>>(async (resolve, reject) => {
     try {
-      const res = await http.put<{}, BasicResult<{}>>(API.CHANGE_ROLE_STATUS, {
+      const res = await http.put<{}, BasicResult<{}>>(API.CHANGE_USER_STATUS, {
+        data,
+        headers: {
+          "Content-Type": "application/json"
+        }
+      });
+      resolve(res);
+    } catch (error) {
+      reject(error);
+    }
+  });
+};
+
+export const insertAuthRole = (userId: string | number, roleIds: []) => {
+  const data = {
+    userId,
+    roleIds
+  };
+  console.log(data);
+  return new Promise<BasicResult<{}>>(async (resolve, reject) => {
+    try {
+      const res = await http.post<{}, BasicResult<{}>>(API.INSTER_AUTH_ROLES, {
         data,
         headers: {
           "Content-Type": "application/json"
